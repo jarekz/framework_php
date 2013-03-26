@@ -1,0 +1,17 @@
+<div>
+	<form name="person" action="<?php
+			if(isset($actionRoute))
+				echo $this->buildUrl(array(), $actionRoute);
+			else
+				echo $action;
+		?>" method="post">
+    <p>
+		<label for="firstname">first name: </label>
+		<input type="text" id="fName" name="fName" value="<?= $fName ?>"><br>
+		<label for="lastname">last name: </label>
+		<input type="text" id="lName" name="lName" value="<?= $lName ?>"><br>
+		<input type="hidden" id="fSend" name="fSend" value="1"><br>
+		<input type="submit" id="submit" value="send">
+	</p>
+ </form>
+</div>

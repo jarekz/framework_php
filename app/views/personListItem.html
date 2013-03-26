@@ -1,0 +1,3 @@
+<?php echo $this->baseUrl('js/script.js'); ?><br/>
+<?php echo $this->buildUrl(array(rand()), 'osoba'); ?>
+<div><?= $id ?>: <?= $fName ?> <b><?= $lName ?></b> <a href='<?= $this->buildUrl(array('person', 'update', $id)) ?>'>EDIT</a> <a href='<?= $this->buildUrl(array('person', 'delete', $id)) ?>'>DELETE</a></div>

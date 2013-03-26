@@ -1,0 +1,107 @@
+-	sprawdzic czy i z jak duzo latwoscia uda sie wywolac z poziomu klienta (np przegladarki)
+	metody w kontrolerach pomocniczych
+
+	da sie np takim url - http://localhost/php/mvc/index.php?a=app\controllers\person\PersonCrudControllerHtml&b=foo
+	zadzial to pod warunkiem ze w klasie PersonCrudControllerHtml jest publiczna metoda actionFoo i ze uzytkownik ma uprawnienia do wywolania tej metody 
+
+	przemyslec czy dodanie roznych do AppControlera strategi ladowania/dostepu do plikow kontrolerow 
+	niejako przy okazji rozwiaze powyzszy problem
+
+-	dodac obsluga rest full
+
+	nie podoba mi sie ze typy zadan (REQUEST_METHOD) sa nasztywno zamapowane na nazwy akcji,
+	patrz JsonRequest::handleAction i JsonRequest::ini 
+	moze rozwiaze to Routing (patrz kilka punktow nizej)
+
+	jesli w klucz parametru zadania jest np literowka, kod i tak wykona sie poprawnie
+	poniewaz zostanie podjeta druga proba odczytu parametru w ktorej kluczem bedzie index liczbowy
+	np update z parametrami: {"id":"159", "lNaAme":"zzzzz2", "fName":"aaaa2"} spowoduje ze polu 'lName'
+	zostanie przypisana wartosc "aaaa2" poniewaz ten 'brakujacy' parametr ma index liczbowy rowny 2
+	czy jest to do przyjecia?
+
+	testowanie za pomoca dodatku do firefoxa o nazwie RESTClient, 
+	ktory to dodatek niezawsze dziala zgodnie z oczekiwaniem np zawiesza sie przy probie wyswietlenia nieistniejacego rekordu
+
+	potestowac programem curl (dowiedziec sie jak go zainstalowac pod Winda)
+	curl mozna pobrac tutaj: http://curl.haxx.se/download.html i zainstalowac w sciezce systemowej
+	testy za pomoca curl w pliku curlTest.bat
+
+	lista codow statusow HTTP: http://en.wikipedia.org/wiki/List_of_HTTP_status_codes 
+
+-	ulepszyc config
+
+	niepodoba mi sie polozenie tablicy settings, teraz jest w pliku index.php,
+	byc moze tablica (lub jaki inny rodzaj definiowania) powinien byc umieszczony w oddzielnym pliku
+
+-	dodac autoryzacje
+
+	dodac mozliwosc definiowania minimalnego poziomu dostepu jednym poleceniem dla calego kontrolera np 'person-*'
+
+	przemyslec jak podczas tworzenia obiektu uzytkownika (i rejestracji/logowania) 
+	bedzie z obiektu typu UserLevel pobierany odpowiedni poziom uprawnien
+
+	uwzglednic mozliwosc stosowania roznych sposobow przechowywania loginow i hasel
+
+	w mechanizmie autoryzacji uwglednic jednoczesne wywolanie metody wymagajacej autoryzacji z danymi autoryzujacymi
+	(http://jrenard.info/blog/fetching-headers-sent-by-php-from-the-command-line.html)
+
+-	routing
+
+	jak obsluzyc sytuacje gdy adres url bedzie musial miec bardziej zlozona postac
+	tzn nie bedzie mozna zamapowac bezposrednio pierwszy i drugi parametr na nazwe kotrolera i nazwe akcji
+	np /firma/kontakt
+
+-	obsluga widokow biblioteka SMARTY
+
+-	sesja w konsoli
+
+	w konsoli jest obslugiwana sesja czy nie jest?
+	otoz jest, jesli przy kazdym wywolaniu przekaze sie sie jako pierwszy parametr SID np index.php [--sid shj934jmn23493248fksd] person read param1 param2
+
+-	dodac komentarze w kodzie klas i wygenerowac dokumentacje za pomoca phpdoc
+	
+	pierwsze komentarze dodalem w juz w klasie ParamsCleaner i czesciowo w klasie BaseRequest
+
+-	potestowac za pomoca phpunit hierarchie DataBaseAccess
+
+	w klasie FAKE nie uwzglednilem ze INSERT, UPDATE i DELETE moze zmodyfikowac wiecej niz jeden wiersz na raz
+	w zwiazku z powyzszym klasa FAKE jest nie kompletna i nie przechodzi wszystkich testow
+
+	co z zapytaniami sql innymi niz SELECT, INSERT, UPDATE, DELETE
+
+	w DataBaseAccessPDO dodac sprawdzanie dostepnych sterownikow - http://pl1.php.net/manual/en/pdo.getavailabledrivers.php
+
+
+										result()			getLastRowCount()	getLastInsertId()
+		
+	find ok								return array(1),	rowCount = 1,		lastInsertId = NULL
+	find no matches (wrong id)			return array(0),	rowCount = 0,		lastInsertId = NULL
+
+	findAll ok							return array(n),	rowCount = n,		lastInsertId = NULL
+	findAll table empty					return array(0),	rowCount = 0,		lastInsertId = NULL
+
+	insert ok							throw exception,	rowCount = 1,		lastInsertId = n
+
+	update 1 record						throw exception,	rowCount = 1,		lastInsertId = NULL
+	update n record						throw exception,	rowCount = n,		lastInsertId = NULL
+	update no modify					throw exception,	rowCount = 0,		lastInsertId = NULL
+	update no matches (wrong id)		throw exception,	rowCount = 0,		lastInsertId = NULL
+
+	delete 1 record						throw exception,	rowCount = 1,		lastInsertId = NULL
+	delete n record						throw exception,	rowCount = n,		lastInsertId = NULL
+	delete no matches (wrong id)		throw exception,	rowCount = 0,		lastInsertId = NULL
+
+	umiescic ww schemat w dokumentacji i wygenerowac dokumentacje za pomoca phpDoc...
+
+-	testy jednostkowe (bootstrap - dodac autoload)
+
+-	potestowac Unity of Work przy pomocy testow phpunit
+
+	zastapic w PersonCrudController wywolania metod mapper->insert, mapper->update, mapper->delete
+	obsluga za pomoca DomainObjectWatcher i jego metody performOperations
+
+-	dodac druga tabele w BD
+
+-	dodac join w zapytania do bazy (druga tabela)
+
+-	ostylowac html uzywajac bootstrap
