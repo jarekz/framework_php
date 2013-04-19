@@ -50,7 +50,7 @@ class View {
 	
 	function baseUrl($end = '') {
 		$request = \core\registry\RequestRegistry::getRequest();
-		return sprintf('%s/%s',$request->getRelativePath(), ltrim($end, '/'));
+		return sprintf('%s%s',$request->getRelativePath(), ltrim($end, '/'));
 	}
 	
 	function buildUrl(array $urlOptions, $routeName = '') {
@@ -140,9 +140,9 @@ class View {
 		
 		if(is_array($href)) {
 			foreach($href as $h)
-				$this->link[] = array('href' => $h, 'rel' => $rel, 'type' => $type, 'media' => $media);
+				$this->link[] = array('href' => $this->baseUrl($h), 'rel' => $rel, 'type' => $type, 'media' => $media);
 		} else {
-			$this->link[] = array('href' => $href, 'rel' => $rel, 'type' => $type, 'media' => $media);
+			$this->link[] = array('href' => $this->baseUrl($href), 'rel' => $rel, 'type' => $type, 'media' => $media);
 		}
 	}
 }

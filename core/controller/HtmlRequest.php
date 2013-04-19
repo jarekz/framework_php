@@ -37,9 +37,9 @@ class HtmlRequest extends BaseRequest {
 	
 	function buildUrl(array $urlOptions, $routeName = '') {
 		if(!empty($routeName) && $router = \core\registry\RequestRegistry::getRouter()) {
-			return sprintf('%s%s', $this->getRelativePath(), $router->getExternalUrl($urlOptions, $routeName)); 
+			return sprintf('%s%s', $this->getRelativePath(), ltrim($router->getExternalUrl($urlOptions, $routeName), '/\\') ); 
 		} else {		
-			return sprintf('%s/%s', $this->getRelativePath(), implode('/', $urlOptions)); 
+			return sprintf('%s%s', $this->getRelativePath(), implode('/', $urlOptions)); 
 		}
 	}
 

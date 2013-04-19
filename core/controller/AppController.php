@@ -9,7 +9,7 @@ class AppController {
 	
 	function dispatch($controller, $action) {
 		
-		if($this->makeAction($controller, $action, $useAbsolutePath)) {
+		if($this->makeAction($controller, $action)) {
 			return $this->invokeAction();
 		} else {
 			$this->invokeError();

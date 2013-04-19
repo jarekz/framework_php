@@ -69,7 +69,7 @@ abstract class BaseRequest {
 	
 	function getRelativePath() {
 		$pathinfo = pathinfo($_SERVER['SCRIPT_NAME']);
-		return str_replace('\\', '', $pathinfo['dirname']);
+		return rtrim($pathinfo['dirname'], DIRECTORY_SEPARATOR).'/';
 	}
 	
 	function redirect($uri) {
